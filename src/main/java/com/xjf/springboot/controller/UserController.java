@@ -71,4 +71,13 @@ public class UserController {
 
         return new ModelAndView("users/save","userModel",model);
     }
+
+    /**
+     * 根据id进行删除
+     * @param id
+     */
+    @GetMapping("/del/{id}")
+    public void deleteUser(@PathVariable("id") Long id){
+        userRespository.deleteUserById(id);
+    }
 }
