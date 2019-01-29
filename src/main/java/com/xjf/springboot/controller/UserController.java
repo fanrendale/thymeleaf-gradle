@@ -65,11 +65,11 @@ public class UserController {
      */
     @PostMapping
     public ModelAndView saveOrUpdateUser(User user,Model model){
-        user = userRespository.saveOrUpdteUser(user);
-        model.addAttribute("user",user);
-        System.out.println("操作成功");
+        userRespository.saveOrUpdteUser(user);
+        System.out.println("添加或修改成功");
 
-        return new ModelAndView("users/save","userModel",model);
+        //重定向到首页
+        return new ModelAndView("redirect:/users");
     }
 
     /**
@@ -77,7 +77,26 @@ public class UserController {
      * @param id
      */
     @GetMapping("/del/{id}")
-    public void deleteUser(@PathVariable("id") Long id){
+    public ModelAndView deleteUser(@PathVariable("id") Long id){
         userRespository.deleteUserById(id);
+
+        //重定向到首页
+        return new ModelAndView("redirect:/users");
+    }
+
+    /**
+     * 获取修改用户的页面
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/modify/{id}")
+    public ModelAndView modify(@PathVariable("id") Long id,Model model){
+        User user = userRespository.getUserById(id);
+        System.out.println(user);
+        model.addAttribute("user",user);
+        model.addAttribute("title","修改用户");
+
+        return new ModelAndView("users/form","userModel",model);
     }
 }
